@@ -5,6 +5,7 @@ import Knex from "knex";
 import { Model } from "objection";
 import { createItemsRouter } from "./modules/item/item.router";
 import { createTransactionsRouter } from "./modules/transactions/transactions.router";
+import cors from "cors";
 const knexConfig = require("../../knexfile.js");
 
 dotenv.config();
@@ -18,6 +19,7 @@ Model.knex(knex);
 // express middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cors());
 
 // routes
 app.use("/provider", createProviderRouter());
