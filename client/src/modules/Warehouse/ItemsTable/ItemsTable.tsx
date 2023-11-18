@@ -9,6 +9,7 @@ import {
   Paper,
 } from "@mui/material";
 import ItemTableRow from "./ItemTableRow";
+import { IProvider } from "../Warehouse";
 
 export interface Item {
   id: number;
@@ -19,28 +20,25 @@ export interface Item {
   net_price: number;
   retail_price: number;
   wholesale_price: number;
+  provider: IProvider;
   provider_id: number;
   created_at: string;
   updated_at: string;
 }
 
-const ItemsTable = () => {
-  // console.log(process.env.REACT_APP_API_HOST);
-  const [items, setItems] = useState<Array<Item>>([]);
+interface Props {
+  items: Array<Item>;
+  fetchItems: () => void;
+}
 
+const ItemsTable = ({ items, fetchItems }: Props) => {
   useEffect(() => {
-    const fetchItems = async () => {
-      const { data } = await (
-        await fetch(`${process.env.REACT_APP_API_HOST}/items`)
-      ).json();
-      setItems(data);
-    };
     fetchItems();
-  });
+  }, [fetchItems]);
 
   return (
     <TableContainer component={Paper}>
-      <Table>
+      <Table sx={{ border: "1px solid #000", marginTop: "16px" }}>
         <TableHead>
           <TableRow>
             <TableCell colSpan={4} />
@@ -74,7 +72,7 @@ const ItemsTable = () => {
         </TableHead>
         <TableBody>
           {items.map((item) => (
-            <ItemTableRow item={item} key={item.id} />
+            <ItemTableRow fetchItems={fetchItems} item={item} key={item.id} />
           ))}
         </TableBody>
       </Table>

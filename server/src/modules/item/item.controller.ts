@@ -4,7 +4,7 @@ import Item from "../../libs/models/item.model";
 
 export async function getAllItems(req: Request, res: Response) {
   try {
-    const data = await Item.query();
+    const data = await Item.query().withGraphFetched("provider");
     res.json({ data });
   } catch (error) {
     console.error(error);

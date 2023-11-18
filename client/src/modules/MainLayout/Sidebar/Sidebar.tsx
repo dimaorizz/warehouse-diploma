@@ -14,10 +14,13 @@ const Sidebar = () => {
     >
       <List>
         <ListItem>
-          <Link to={"/"}>Dashboard</Link>
+          <Link to={"/"}>Головна</Link>
         </ListItem>
         <ListItem>
-          <Link to={"/warehouse"}>Warehouse</Link>
+          <Link to={"/warehouse"}>Склад</Link>
+        </ListItem>
+        <ListItem>
+          <Link to={"/providers"}>Постачальники</Link>
         </ListItem>
       </List>
     </Drawer>
