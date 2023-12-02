@@ -22,6 +22,9 @@ const Sidebar = () => {
         <ListItem>
           <Link to={"/providers"}>Постачальники</Link>
         </ListItem>
+        <ListItem>
+          <Link to={"/orders"}>Замовлення</Link>
+        </ListItem>
       </List>
     </Drawer>
   );

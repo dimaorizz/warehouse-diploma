@@ -1,10 +1,22 @@
 import { Model, ModelOptions, QueryContext } from "objection";
-import Item from "./item.model";
 import { date2mysqlFormat } from "../utils";
+import knex from "knex";
+import Order from "./order.model";
+import Item from "./item.model";
 
-class Transaction extends Model {
+interface IOrderItem {
+  id: number;
+  count: number;
+  order_id: number;
+  item_id: number;
+
+  created_at: string;
+  updated_at: string;
+}
+
+class OrderItem extends Model implements IOrderItem {
   static get tableName() {
-    return "transaction";
+    return "order_item";
   }
 
   $beforeInsert(queryContext: QueryContext): Promise<any> | void {
@@ -23,7 +35,7 @@ class Transaction extends Model {
 
   id: number;
   count: number;
-  discount: number;
+  order_id: number;
   item_id: number;
   created_at: string;
   updated_at: string;
@@ -34,7 +46,7 @@ class Transaction extends Model {
       properties: {
         id: { type: "integer" },
         count: { type: "integer" },
-        discount: { type: "number" },
+        order_id: { type: "integer" },
         item_id: { type: "integer" },
         created_at: { type: "string" },
         updated_at: { type: "string" },
@@ -44,11 +56,19 @@ class Transaction extends Model {
 
   static get relationMappings() {
     return {
+      order: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: Order,
+        join: {
+          from: "order_item.order_id",
+          to: "order.id",
+        },
+      },
       item: {
         relation: Model.BelongsToOneRelation,
         modelClass: Item,
         join: {
-          from: "transaction.item_id",
+          from: "order_item.item_id",
           to: "item.id",
         },
       },
@@ -56,4 +76,4 @@ class Transaction extends Model {
   }
 }
 
-export default Transaction;
+export default OrderItem;

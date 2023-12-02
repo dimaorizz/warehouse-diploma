@@ -7,11 +7,12 @@ import {
   updateProvider,
   deleteProvider,
 } from "./provider.controller";
+import { isAuthenticated } from "../../middlewares/authMiddleware";
 
 export function createProviderRouter(): Router {
   const router = createRouter();
 
-  router.get("/all", getAllProviders);
+  router.get("/all", isAuthenticated, getAllProviders);
   router.get("/:providerID", getProviderById);
   router.post("/create", createProvider);
   router.put("/:providerID", updateProvider);

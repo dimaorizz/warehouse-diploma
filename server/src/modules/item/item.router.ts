@@ -7,11 +7,12 @@ import {
   getItemById,
   updateItem,
 } from "./item.controller";
+import { isAuthenticated } from "../../middlewares/authMiddleware";
 
 export function createItemsRouter(): Router {
   const router = createRouter();
 
-  router.get("/", getAllItems);
+  router.get("/", isAuthenticated, getAllItems);
   router.get("/:itemID", getItemById);
   router.post("/create", createItem);
   router.put("/:itemID", updateItem);
